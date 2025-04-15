@@ -1,21 +1,20 @@
-use crate::error::WalletError;
-use crate::models::{CreateWalletRequest, CreateWalletResponse};
-use crate::services;
 use actix_web::{web, HttpResponse};
+use sqlx::MySqlPool;
+use crate::{models::{CreateWalletRequest, WalletResponse}, error::WalletError};
 
 pub async fn create_wallet(
     req: web::Json<CreateWalletRequest>,
+    pool: web::Data<MySqlPool>,
 ) -> Result<HttpResponse, WalletError> {
-    match req.blockchain_name.to_lowercase().as_str() {
+    match req.blockchain.to_lowercase().as_str() {
         "bitcoin" => {
-            let address = services::bitcoin::create_wallet(&req.user_id)?;
-            Ok(HttpResponse::Ok().json(CreateWalletResponse {
-                blockchain_name: "bitcoin".to_string(),
-                wallet_address: address,
+            let address = crate::services::bitcoin::create_wallet(&pool, &req.user_id).await?;
+            Ok(HttpResponse::Ok().json(WalletResponse {
+                address,
+                blockchain: "bitcoin".to_string(),
                 user_id: req.user_id.clone(),
             }))
         }
-        // Add other blockchains here as you implement them
-        _ => Err(WalletError::UnsupportedBlockchain(req.blockchain_name.clone())),
+        _ => Err(WalletError::UnsupportedBlockchain(req.blockchain.clone())),
     }
 }
