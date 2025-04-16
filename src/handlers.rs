@@ -18,6 +18,15 @@ pub async fn create_wallet(
                 user_id: req.user_id.clone(),
             }))
         }
+        "bsc" => {
+            let wallet = crate::services::bsc::BscWallet::new()?;
+            let address = wallet.address1(); // or `.address()`, if renamed
+            Ok(HttpResponse::Ok().json(WalletResponse {
+                address,
+                blockchain: "bsc".to_string(),
+                user_id: req.user_id.clone(),
+            }))
+        }
         // "solana" => {
         //     let address = crate::services::solana::create_wallet(&pool, &req.user_id).await?;
         //     Ok(HttpResponse::Ok().json(WalletResponse {

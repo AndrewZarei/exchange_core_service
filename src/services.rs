@@ -1,5 +1,5 @@
 pub mod bitcoin;
 mod solana;
-pub(crate) mod bsc;
+pub mod bsc;
 mod polkadot;
 mod ethereum;

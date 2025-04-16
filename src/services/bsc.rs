@@ -47,3 +47,6 @@ impl BscWallet {
     }
 }
 
+pub(crate) async fn BscWallet(_p0: String) {
+    BscWallet::new().expect("Error while creating wallet");
+}
