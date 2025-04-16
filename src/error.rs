@@ -12,6 +12,9 @@ pub enum WalletError {
     #[error("Bitcoin wallet creation failed: {0}")]
     BitcoinCreationError(String),
 
+    #[error("Bitcoin wallet creation failed: {0}")]
+    BnbWalletCreationError(String),
+
     #[error("Database error: {0}")]
     DatabaseError(String),
 
@@ -63,4 +66,3 @@ impl From<MigrateError> for WalletError {
 //     fn from(err: solana_sdk::signature::ParseSignatureError) -> Self {
 //         WalletError::SolanaRpcError(err.to_string())
 //     }
-// }
