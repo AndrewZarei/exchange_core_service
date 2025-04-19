@@ -1,18 +1,13 @@
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
-//use anychain_solana::*;
-use k256::ecdsa::{SigningKey, VerifyingKey};
-use rand_core::OsRng;
-
-
-
 mod routes;
 mod handlers;
 mod models;
 mod services;
 mod error;
 mod database;
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
